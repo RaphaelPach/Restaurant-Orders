@@ -1,6 +1,15 @@
-from src.models.ingredient import Ingredient  # noqa: F401, E261, E501
+from src.models.ingredient import Ingredient
 
 
 # Req 1
 def test_ingredient():
-    pass
+    fish = Ingredient("salmão")
+    picles = Ingredient("pepino")
+    rice = Ingredient("arroz")
+    fish2 = Ingredient("salmão")
+
+    assert hash(fish) == hash('salmão')
+    assert fish == fish2
+    assert picles.name == 'pepino'
+    assert picles.restrictions == set()
+    assert repr(rice) == "Ingredient('arroz')"
