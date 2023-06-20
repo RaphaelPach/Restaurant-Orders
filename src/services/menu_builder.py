@@ -23,29 +23,25 @@ class MenuBuilder:
 
         self.inventory.consume_recipe(curr_dish.recipe)
 
-    # Req 4
+    def get_main_menu(self, restriction=None) -> pd.DataFrame:
+        data_main = self.menu_data.dishes
 
+        if not data_main:
+            return pd.DataFrame(
+                columns=["dish_name", "price", "ingredients", "restrictions"]
+            )
 
-def get_main_menu(self, restriction=None) -> pd.DataFrame:
-    menu_data = self.menu_data.dishes
-
-    if not menu_data:
-        empty_df = pd.DataFrame(
-            columns=["dish_name", "price", "ingredients", "restrictions"]
-        )
-        return empty_df
-
-    menu_dict = []
-    for dish in menu_data:
-        if restriction is None or restriction not in dish.get_restrictions():
-            dish_info = {
-                "dish_name": dish.name,
-                "price": dish.price,
-                "ingredients": dish.get_ingredients(),
-                "restrictions": dish.get_restrictions(),
+        carte_dict = [
+            {
+                "dish_name": plate.name,
+                "price": plate.price,
+                "ingredients": plate.get_ingredients(),
+                "restrictions": plate.get_restrictions(),
             }
-            menu_dict.append(dish_info)
+            for plate in data_main
+            if restriction is None
+            or restriction not in plate.get_restrictions()
+        ]
 
-    columns = ["dish_name", "price", "ingredients", "restrictions"]
-    menu_df = pd.DataFrame(menu_dict, columns=columns)
-    return menu_df
+        pillar = ["dish_name", "price", "ingredients", "restrictions"]
+        return pd.DataFrame(carte_dict, columns=pillar)
